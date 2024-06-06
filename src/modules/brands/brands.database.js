@@ -17,7 +17,24 @@ function getBrands() {
           b.id
     `
     )
-    .then((result) => result.rows);
+    .then(({ rows }) => rows);
 }
 
-export { getBrands }
+function getModelsOfBrand(brandId) {
+  return client.query(
+    `
+        SELECT
+          id,
+          name,
+          average_price,
+          brand_id
+        FROM
+          models
+        WHERE
+          brand_id = $1
+    `,
+    [brandId]
+  ).then(({ rows }) => rows);
+}
+
+export { getBrands, getModelsOfBrand };
