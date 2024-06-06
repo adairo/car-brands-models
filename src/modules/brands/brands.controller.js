@@ -1,6 +1,7 @@
 import AppError from "../../lib/app-error.js";
 import * as brandsDatabase from "./brands.database.js";
 import * as modelsDatabase from "../models/models.database.js";
+import { MINIMUM_AVG_PRICE } from "../models/models.constants.js";
 
 /** @typedef {import('express').RequestHandler} RequestHandler */
 
@@ -61,7 +62,6 @@ async function createModelOnBrand(req, res, next) {
       );
     }
 
-    const MINIMUM_AVG_PRICE = 100_000;
     if (
       typeof average_price !== "undefined" &&
       Number(average_price) <= MINIMUM_AVG_PRICE

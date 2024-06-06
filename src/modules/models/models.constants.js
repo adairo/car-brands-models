@@ -1,0 +1,1 @@
+export const MINIMUM_AVG_PRICE = 100_000;
