@@ -75,4 +75,33 @@ function updateModel(modelId, { average_price }) {
     .then(({ rows: [model] }) => model);
 }
 
-export { getModelByName, getModelById, createModelOnBrand, updateModel };
+function getModels({
+  lower = Number.POSITIVE_INFINITY,
+  greater = Number.NEGATIVE_INFINITY,
+}) {
+  return client
+    .query(
+      `
+        SELECT
+          id,
+          name,
+          average_price,
+          brand_id
+        FROM
+          models m
+        WHERE
+          average_price > $1 AND
+          average_price < $2
+      `,
+      [greater, lower]
+    )
+    .then(({ rows: models }) => models);
+}
+
+export {
+  getModelByName,
+  getModelById,
+  createModelOnBrand,
+  updateModel,
+  getModels,
+};

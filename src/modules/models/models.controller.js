@@ -37,4 +37,16 @@ async function updateModel(req, res, next) {
   }
 }
 
-export { updateModel };
+/** @type {RequestHandler} */
+async function getModels(req, res, next) {
+  const { greater, lower } = req.query;
+
+  try {
+    const models = await modelsDatabase.getModels({ greater, lower });
+    res.status(200).json(models);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export { updateModel, getModels };

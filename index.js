@@ -15,6 +15,8 @@ app.get("/brands/:brandId/models", brandsController.getModelsOfBrand);
 app.post("/brands/:brandId/models", brandsController.createModelOnBrand);
 // models
 app.put("/models/:modelId", modelsController.updateModel)
+app.get("/models", modelsController.getModels)
+
 app.use(handleError)
 
 app.listen(PORT, () => {
