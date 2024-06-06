@@ -5,11 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon --env-file=.env.local index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "adairo.dev@gmail.com",
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
