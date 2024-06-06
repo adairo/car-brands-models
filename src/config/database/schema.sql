@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS brands (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS models (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    average_price NUMERIC NOT NULL DEFAULT 0.0,
+    brand_id INTEGER NOT NULL REFERENCES brands(id),
+    UNIQUE (name, brand_id)
+);
