@@ -17,12 +17,13 @@ function getBrands() {
           b.id
     `
     )
-    .then(({ rows }) => rows);
+    .then(({ rows: brands }) => brands);
 }
 
 function getModelsOfBrand(brandId) {
-  return client.query(
-    `
+  return client
+    .query(
+      `
         SELECT
           id,
           name,
@@ -33,8 +34,30 @@ function getModelsOfBrand(brandId) {
         WHERE
           brand_id = $1
     `,
-    [brandId]
-  ).then(({ rows }) => rows);
+      [brandId]
+    )
+    .then(({ rows: models }) => models);
 }
 
-export { getBrands, getModelsOfBrand };
+/**
+ *
+ * @param {{ name: string}} payload
+ * @returns {Promise<{ name: string, id: number}>}
+ */
+function createBrand({ name }) {
+  return client
+    .query(
+      `
+        INSERT INTO brands
+        (name)
+        VALUES ($1)
+        RETURNING
+          id, 
+          name
+      `,
+      [name]
+    )
+    .then(({ rows: [brand] }) => brand);
+}
+
+export { getBrands, getModelsOfBrand, createBrand };

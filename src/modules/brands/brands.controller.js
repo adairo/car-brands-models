@@ -15,4 +15,11 @@ async function getModelsOfBrand(req, res) {
   res.status(200).json(models);
 }
 
-export { getBrands, getModelsOfBrand };
+/** @type {RequestHandler} */
+async function createBrand(req, res) {
+    const { name } = req.body;
+    const brand = await brandsDatabase.createBrand({ name });
+    res.status(200).json(brand);
+  }
+
+export { getBrands, getModelsOfBrand, createBrand };
