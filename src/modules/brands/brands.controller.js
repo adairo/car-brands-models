@@ -1,3 +1,4 @@
+import AppError from "../../lib/app-error.js";
 import * as brandsDatabase from "./brands.database.js";
 
 /** @typedef {import('express').RequestHandler} RequestHandler */
@@ -16,10 +17,23 @@ async function getModelsOfBrand(req, res) {
 }
 
 /** @type {RequestHandler} */
-async function createBrand(req, res) {
-    const { name } = req.body;
+async function createBrand(req, res, next) {
+  const { name } = req.body;
+
+  try {
+    const existentBrand = await brandsDatabase.getBrandByName(name);
+    if (existentBrand) {
+      throw new AppError(
+        "DuplicatedResource",
+        AppError.HTTP_ERRORS.conflict,
+        "Brand already exists"
+      );
+    }
     const brand = await brandsDatabase.createBrand({ name });
     res.status(200).json(brand);
+  } catch (error) {
+    next(error);
   }
+}
 
 export { getBrands, getModelsOfBrand, createBrand };

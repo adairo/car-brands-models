@@ -1,5 +1,8 @@
 import client from "../../config/database/database.js";
+/** @typedef {{ id: number, name: string, average_price: number}} Brand */
+/** @typedef {{ id: number, name: string, brand_id: number, average_price: number}} Model */
 
+/** @returns { Promise<Brand[]>} */
 function getBrands() {
   return client
     .query(
@@ -20,6 +23,11 @@ function getBrands() {
     .then(({ rows: brands }) => brands);
 }
 
+/**
+ *
+ * @param {number} brandId Brand id
+ * @returns {Promise<Model[]>}
+ */
 function getModelsOfBrand(brandId) {
   return client
     .query(
@@ -42,7 +50,7 @@ function getModelsOfBrand(brandId) {
 /**
  *
  * @param {{ name: string}} payload
- * @returns {Promise<{ name: string, id: number}>}
+ * @returns {Promise<Brand>}
  */
 function createBrand({ name }) {
   return client
@@ -60,4 +68,26 @@ function createBrand({ name }) {
     .then(({ rows: [brand] }) => brand);
 }
 
-export { getBrands, getModelsOfBrand, createBrand };
+/**
+ *
+ * @param {number} id
+ * @returns {Promise<Brand>}
+ */
+function getBrandByName(name) {
+  return client
+    .query(
+      `
+        SELECT
+          id,
+          name
+        FROM
+          brands b
+        WHERE
+          b.name = $1
+        `,
+      [name]
+    )
+    .then(({ rows: [brand] }) => brand);
+}
+
+export { getBrands, getModelsOfBrand, createBrand, getBrandByName };
