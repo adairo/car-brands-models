@@ -9,10 +9,12 @@ app.use(express.json());
 app.get("/brands", brandsController.getBrands);
 app.post("/brands", brandsController.createBrand);
 app.get("/brands/:brandId/models", brandsController.getModelsOfBrand);
+app.post("/brands/:brandId/models", brandsController.createModelOnBrand);
+
 app.use(handleError)
 
 app.listen(PORT, () => {
-  console.log(`Server listeting at http://localhost:${PORT}`);
+  console.log(`Server listeting at PORT ${PORT}`);
 });
 
 

@@ -6,6 +6,7 @@ class AppError extends Error {
   }
 
   static HTTP_ERRORS = {
+    badRequest: 400,
     notFound: 404,
     conflict: 409,
   };

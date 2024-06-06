@@ -90,4 +90,26 @@ function getBrandByName(name) {
     .then(({ rows: [brand] }) => brand);
 }
 
-export { getBrands, getModelsOfBrand, createBrand, getBrandByName };
+/**
+ *
+ * @param {number} id
+ * @returns {Promise<Brand>}
+ */
+function getBrandById(id) {
+    return client
+      .query(
+        `
+          SELECT
+            id,
+            name
+          FROM
+            brands b
+          WHERE
+            b.id = $1
+          `,
+        [id]
+      )
+      .then(({ rows: [brand] }) => brand);
+  }
+
+export { getBrands, getModelsOfBrand, createBrand, getBrandByName, getBrandById };

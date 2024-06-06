@@ -1,5 +1,6 @@
 import AppError from "../../lib/app-error.js";
 import * as brandsDatabase from "./brands.database.js";
+import * as modelsDatabase from "../models/models.database.js";
 
 /** @typedef {import('express').RequestHandler} RequestHandler */
 
@@ -36,4 +37,51 @@ async function createBrand(req, res, next) {
   }
 }
 
-export { getBrands, getModelsOfBrand, createBrand };
+/** @type {RequestHandler} */
+async function createModelOnBrand(req, res, next) {
+  const { brandId } = req.params;
+  const { name, average_price } = req.body;
+
+  try {
+    const existentBrand = await brandsDatabase.getBrandById(brandId);
+    if (!existentBrand) {
+      throw new AppError(
+        "ResourceNotFound",
+        AppError.HTTP_ERRORS.notFound,
+        "Brand does not exist"
+      );
+    }
+
+    const alreadyExistentModel = await modelsDatabase.getModelByName(name);
+    if (alreadyExistentModel) {
+      throw new AppError(
+        "DuplicatedResource",
+        AppError.HTTP_ERRORS.conflict,
+        "Model already exist"
+      );
+    }
+
+    const MINIMUM_AVG_PRICE = 100_000;
+    if (
+      typeof average_price !== "undefined" &&
+      Number(average_price) <= MINIMUM_AVG_PRICE
+    ) {
+      throw new AppError(
+        "InvalidInput",
+        AppError.HTTP_ERRORS.badRequest,
+        "Average price must be greater than 100,000"
+      );
+    }
+
+    const model = await modelsDatabase.createModelOnBrand(brandId, {
+      name,
+      average_price,
+    });
+
+    res.status(200).json(model);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export { getBrands, getModelsOfBrand, createBrand, createModelOnBrand };
