@@ -422,7 +422,6 @@
 {"id": 573, "name": "Mariner", "average_price": 0, "brand_name": "Mercury"},
 {"id": 574, "name": "Milan", "average_price": 0, "brand_name": "Mercury"},
 {"id": 576, "name": "Mountaineer", "average_price": 0, "brand_name": "Mercury"},
-{"id": 578, "name": "CBO", "average_price": 125775, "brand_name": "Cbo"},
 {"id": 580, "name": "Eclipse", "average_price": 142225, "brand_name": "Mitsubishi"},
 {"id": 581, "name": "Endeavor", "average_price": 146240, "brand_name": "Mitsubishi"},
 {"id": 582, "name": "Galant", "average_price": 79163, "brand_name": "Mitsubishi"},

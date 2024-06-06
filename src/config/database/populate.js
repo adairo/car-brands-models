@@ -27,12 +27,12 @@ const modelOperations = models.map(async (model) => {
     rows: [brandResult],
   } = await client.query(
     `
-        SELECT
-          id
-        FROM
-          brands b
-        WHERE
-          b.name = $1
+      SELECT
+        id
+      FROM
+        brands b
+      WHERE
+        b.name = $1
     `,
     [model.brand_name]
   );
@@ -60,3 +60,5 @@ console.log(`(${errors.length}) Errors found`);
 if (errors.length > 0) {
   console.error(errors.map((error) => error.reason));
 }
+await client.end()
+console.log('connection to database closed')
